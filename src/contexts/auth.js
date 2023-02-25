@@ -25,8 +25,35 @@ const AuthProvider = ({children}) => {
 
     }, []);
 
+    const signUp = async(email, password, name) => {
+        setLoadingAuth(true);
+
+        await firebase.auth().createUserWithEmailAndPassword(email, password).then(async (value) => {
+            let uid = value.user.uid;
+            await firebase.firestore().collection('users').doc(uid).set({
+                name,
+                avatarUrl: null
+            }).then(() => {
+                let data = {
+                    uid,
+                    name,
+                    email: value.user.email,
+                    avatarUrl: null
+                };
+
+                setUser(data);
+                storageUser(data);
+                setLoadingAuth(false);
+            });
+        });
+    }
+
+    const storageUser = async(data) => {
+        await localStorage.setItem('react-helpdesk', JSON.stringify(data));
+    }
+
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, loading }}>
+        <AuthContext.Provider value={{ signed: !!user, user, loading, signUp }}>
             { children }
         </AuthContext.Provider>
     )
