@@ -52,8 +52,14 @@ const AuthProvider = ({children}) => {
         await localStorage.setItem('react-helpdesk', JSON.stringify(data));
     }
 
+    const signOut = async() => {
+        await firebase.auth().signOut();
+        localStorage.removeItem('react-helpdesk');
+        setUser(null);
+    }
+
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, loading, signUp }}>
+        <AuthContext.Provider value={{ signed: !!user, user, loading, signUp, signOut }}>
             { children }
         </AuthContext.Provider>
     )
