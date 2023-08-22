@@ -44,6 +44,9 @@ const AuthProvider = ({children}) => {
                 setUser(data);
                 storageUser(data);
                 setLoadingAuth(false);
+            }).catch((error) => {
+                console.log(error);
+                setLoadingAuth(false);
             });
         });
     }
