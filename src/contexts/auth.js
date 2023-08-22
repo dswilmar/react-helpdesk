@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import firebase from '../services/firebaseConnection';
 
 export const AuthContext = createContext({});
@@ -44,6 +45,7 @@ const AuthProvider = ({children}) => {
                 setUser(data);
                 storageUser(data);
                 setLoadingAuth(false);
+                toast.success('Sua conta foi criada com sucesso!');
             }).catch((error) => {
                 console.log(error);
                 setLoadingAuth(false);
