@@ -9,7 +9,7 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +27,9 @@ function SignUp() {
           <input type="text" placeholder="Insira seu nome" value={name} onChange={(e) => setName(e.target.value)} autoFocus required />
           <input type="email" placeholder="Insira seu e-mail" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <input type="password" placeholder="Insira sua senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <button type="submit">Cadastrar</button>
+          <button type="submit" disabled={loadingAuth}>
+            { loadingAuth ? 'Criando sua conta...' : 'Cadastrar' }
+          </button>
         </form>
         <Link to="/">Já possui uma conta? Faça login</Link>
       </div>
